@@ -24,6 +24,26 @@ def get_primes():
             yield num
 
 
+def p18():
+    data = []
+    max_totals = []
+    with open("data/p18_numbers.txt") as f:
+        for line in f:
+            data.append(list(map(int, line.split(" "))))
+            max_totals.append([None] * len(data[-1]))
+
+    max_totals[0][0] = data[0][0]
+    for y in range(1, len(data)):
+        max_totals[y][0] = max_totals[y - 1][0] + data[y][0]
+        max_totals[y][-1] = max_totals[y - 1][-1] + data[y][-1]
+        for x in range(1, len(max_totals[y]) - 1):
+            max_totals[y][x] = max(
+                max_totals[y - 1][x - 1],
+                max_totals[y - 1][x]
+            ) + data[y][x]
+    print(max(max_totals[-1]))
+
+
 def p17():
     teens =["", "one", "two", "three",
         "four", "five", "six", "seven",
@@ -298,4 +318,4 @@ def p1():
     print(total)
 
 if __name__ == "__main__":
-    p17()
+    p18()
