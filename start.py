@@ -24,6 +24,16 @@ def get_primes():
             yield num
 
 
+def p19():
+    from datetime import date
+    sundays = 0;
+    for year in xrange(1901, 2001):
+        for month in xrange(1, 13):
+            if date(year, month, 1).weekday() == 6:
+                sundays += 1
+    print(sundays)
+
+
 def p18():
     data = []
     max_totals = []
@@ -318,4 +328,4 @@ def p1():
     print(total)
 
 if __name__ == "__main__":
-    p18()
+    p19()
