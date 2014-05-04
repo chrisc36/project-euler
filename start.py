@@ -24,6 +24,13 @@ def get_primes():
             yield num
 
 
+def p20():
+    total = 0
+    for digit in str(math.factorial(100)):
+        total += int(digit)
+    print(total)
+
+
 def p19():
     from datetime import date
     sundays = 0;
@@ -328,4 +335,4 @@ def p1():
     print(total)
 
 if __name__ == "__main__":
-    p19()
+    p20()
