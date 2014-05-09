@@ -24,6 +24,24 @@ def get_primes():
             yield num
 
 
+def p21():
+    n = 10000
+    nums = np.arange(n - 1) + 1
+    gcd_sums = np.zeros(n)
+    for i in xrange(1, n):
+        gcd_sums[i] = np.sum(nums[:i - 1][i % nums[:i - 1] == 0])
+    gcd_sums[1] = 1
+
+    total = 0
+    print("Checking for pairs...")
+    for i in xrange(n):
+        for j in xrange(n):
+            if i != j and gcd_sums[i] == j and gcd_sums[j] == i:
+                print("%d %d pair adding %i" % (i, j, i))
+                total += i
+    print(total)
+
+
 def p20():
     total = 0
     for digit in str(math.factorial(100)):
@@ -335,4 +353,4 @@ def p1():
     print(total)
 
 if __name__ == "__main__":
-    p20()
+    p21()
