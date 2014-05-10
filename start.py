@@ -5,7 +5,7 @@ import numpy as np
 
 
 def get_primes():
-    """ Yields sequential primes numbers. """
+    """ Yields sequential primes numbers (slowly). """
     yield 2
     primes = [2]
     num = 1
@@ -22,6 +22,17 @@ def get_primes():
         if is_prime:
             primes.append(num)
             yield num
+
+
+def p22():
+    with open("data/p22_names.txt") as names:
+        data = names.readline()
+    data = map(lambda x: x.strip("\""), data.split(","))
+    data.sort()
+    score = 0
+    for i in xrange(len(data)):
+        score += (i + 1) * sum(map(lambda x: ord(x) - 64, data[i]))
+    print(score)
 
 
 def p21():
@@ -353,4 +364,4 @@ def p1():
     print(total)
 
 if __name__ == "__main__":
-    p21()
+    p22()
