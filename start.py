@@ -24,6 +24,31 @@ def get_primes():
             yield num
 
 
+def p23():
+    numbers = np.arange(28123, dtype=np.float64)
+    sums = np.ones(28123, dtype=np.float64)
+    for i in xrange(2, 28123):
+        sums[::i] += i
+    # Above methods adds in self divisors, subtract them back out
+    sums -= numbers
+    abundant_numbers = np.where(sums > numbers)[0][1:]
+    total = 0
+
+    abundant_numbers_set = set(abundant_numbers)
+    for i in xrange(1, 28123):
+        if not any(i - j in abundant_numbers_set for j in abundant_numbers[:np.searchsorted(abundant_numbers, i)]):
+            total += i
+    print(total)
+
+    # This method is a bit slower
+    # for i in xrange(1, 28123):
+    # Faster to hash things, but
+    #     overlap = np.intersect1d(i - abundant_numbers, abundant_numbers, True)
+    #     if len(overlap) == 0:
+    #         total += i
+    # print(total)
+
+
 def p22():
     with open("data/p22_names.txt") as names:
         data = names.readline()
@@ -364,4 +389,4 @@ def p1():
     print(total)
 
 if __name__ == "__main__":
-    p22()
+    p23()
