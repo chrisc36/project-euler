@@ -1,11 +1,28 @@
 /**
  */
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
 
 public class Solver {
+
+
+    private static void p25(){
+        // The good old brute force approach
+        BigInteger lastFib = BigInteger.valueOf(1);
+        BigInteger curFib = BigInteger.valueOf(1);
+        BigInteger divisor = BigInteger.valueOf(10).pow(999);
+        int term = 2;
+        while(curFib.divide(divisor).intValue() != 1){
+            BigInteger tmp = curFib;
+            curFib = curFib.add(lastFib);
+            lastFib = tmp;
+            term += 1;
+        }
+        System.out.println(term);
+    }
 
     private static void p24(){
         // The strategy here will be to solve for each digit at a time from left to right by
@@ -45,6 +62,6 @@ public class Solver {
     }
 
     public static void main(String[] args){
-        Solver.p24();
+        Solver.p25();
     }
 }
