@@ -1,10 +1,79 @@
 /**
  */
 import java.math.BigInteger;
+import java.lang.Math;
 import java.util.*;
 
 
 public class Solver {
+
+    static List<Long> primes;
+
+    public void Solver() {
+        primes = null;
+    }
+
+    public static Long get_prime(int prime) {
+        prime--; // So the primes index as we would expect rather then zero based
+        if (primes == null) {
+            primes = new ArrayList<Long>();
+            primes.add(2L);
+            primes.add(3L);
+        }
+        Long candidatePrime = primes.get(primes.size() - 1) + 2;
+        while (primes.size() < prime + 1) {
+            boolean isPrime = true;
+            int onFactor = 1;
+            while (true) {
+                Long factor = primes.get(onFactor);
+                if (candidatePrime % factor == 0) {
+                    isPrime = false;
+                    break;
+                }
+                if (factor <= Math.sqrt(candidatePrime)) {
+                    onFactor += 1;
+                } else {
+                    break;
+                }
+            }
+            if (isPrime) {
+                primes.add(candidatePrime);
+            }
+            candidatePrime += 2;
+        }
+        return primes.get(prime);
+    }
+
+    private static void p27() {
+        // Brute force with a few state space eliminations
+        int limit = 1000;
+        HashSet<Integer> primes = new HashSet<Integer>();
+        for(int i = 0; i <= 500000; i++) {
+            primes.add(get_prime(i + 1).intValue());
+        }
+        int bestA = -1;
+        int bestB = -1;
+        int maxPrimes = 1;
+        // If b < 0 n=0 is not prime
+        for(int b = 0; b <= limit; b++) {
+            // otherwise if n == maxPrimes the total will be negative or too small
+            int minA = (get_prime(maxPrimes).intValue() -maxPrimes * maxPrimes - b) / maxPrimes;
+            for(int a = minA; a <= limit; a++) {
+                int n = 0;
+                for (; n < b; n++) {
+                    if (!primes.contains(n * n + a * n + b)) {
+                        break;
+                    }
+                }
+                if (n > maxPrimes) {
+                    maxPrimes = n;
+                    bestA = a;
+                    bestB = b;
+                }
+            }
+        }
+        System.out.printf("best_a=%d, best_b=%d, n_primes=%d, prod=%d\n", bestA, bestB, maxPrimes, bestA * bestB);
+    }
 
     private static void p26() {
         // Look for division of powers of 10 that have the same remainder indicating that the decimals numbers
@@ -89,6 +158,6 @@ public class Solver {
     }
 
     public static void main(String[] args){
-        Solver.p26();
+        Solver.p27();
     }
 }
