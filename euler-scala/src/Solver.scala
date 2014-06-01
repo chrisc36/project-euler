@@ -3,7 +3,7 @@
  */
 object Solver extends App {
 
-  def p27() {
+  def p28() {
 
     // One line methods folds over (squareNum, onNum, sum)
     print(Range(2, 502).foldLeft((2, 1, 1))((a, b) =>
@@ -28,6 +28,6 @@ object Solver extends App {
   }
 
   override def main (args: Array[String]) {
-    p27()
+    p28()
   }
 }
