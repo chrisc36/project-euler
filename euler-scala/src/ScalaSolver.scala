@@ -1,12 +1,31 @@
-/**
- * Created by chris on 01/06/14.
- */
+import scala.math
+
 object ScalaSolver extends App {
+
+  def p30() {
+    // Easy to just brute force this
+    val pow = 5
+    // 9 ** 5 * 7 < 1000000 so 6 digits is the max number of digits
+    val maxNumber = (math.pow(9, 5) * 6).toInt
+    var foundNumbers = Seq[Int]()
+    for(n <- 2 to maxNumber) {
+      var total = n
+      var remaining = n
+      while (remaining != 0 && total >= 0) {
+        total -= math.pow(remaining % 10, pow).toInt
+        remaining = remaining / 10
+      }
+      if (total == 0) {
+        foundNumbers = foundNumbers:+n
+      }
+    }
+    println(foundNumbers)
+    println(foundNumbers.sum)
+  }
 
   def p29() {
     // We could brute force this problem without trouble using BigInteger, but I will
     // opt for an approach where numbers as stored as prime factors which will scale better
-
     val pc = new PrimeCache()
 
     /** Returns an immutable map of the prime factors -> counts of that factor */
@@ -61,6 +80,6 @@ object ScalaSolver extends App {
   }
 
   override def main (args: Array[String]) {
-    p29()
+    p30()
   }
 }
