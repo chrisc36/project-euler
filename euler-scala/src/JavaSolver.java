@@ -5,51 +5,15 @@ import java.lang.Math;
 import java.util.*;
 
 
-public class Solver {
-
-    static List<Long> primes;
-
-    public void Solver() {
-        primes = null;
-    }
-
-    public static Long get_prime(int prime) {
-        prime--; // So the primes index as we would expect rather then zero based
-        if (primes == null) {
-            primes = new ArrayList<Long>();
-            primes.add(2L);
-            primes.add(3L);
-        }
-        Long candidatePrime = primes.get(primes.size() - 1) + 2;
-        while (primes.size() < prime + 1) {
-            boolean isPrime = true;
-            int onFactor = 1;
-            while (true) {
-                Long factor = primes.get(onFactor);
-                if (candidatePrime % factor == 0) {
-                    isPrime = false;
-                    break;
-                }
-                if (factor <= Math.sqrt(candidatePrime)) {
-                    onFactor += 1;
-                } else {
-                    break;
-                }
-            }
-            if (isPrime) {
-                primes.add(candidatePrime);
-            }
-            candidatePrime += 2;
-        }
-        return primes.get(prime);
-    }
+public class JavaSolver {
 
     private static void p27() {
         // Brute force with a few state space eliminations
         int limit = 1000;
+        PrimeCache pc = new PrimeCache();
         HashSet<Integer> primes = new HashSet<Integer>();
         for(int i = 0; i <= 500000; i++) {
-            primes.add(get_prime(i + 1).intValue());
+            primes.add(pc.getPrime(i + 1).intValue());
         }
         int bestA = -1;
         int bestB = -1;
@@ -57,7 +21,7 @@ public class Solver {
         // If b < 0 n=0 is not prime
         for(int b = 0; b <= limit; b++) {
             // otherwise if n == maxPrimes the total will be negative or too small
-            int minA = (get_prime(maxPrimes).intValue() -maxPrimes * maxPrimes - b) / maxPrimes;
+            int minA = (pc.getPrime(maxPrimes).intValue() -maxPrimes * maxPrimes - b) / maxPrimes;
             for(int a = minA; a <= limit; a++) {
                 int n = 0;
                 for (; n < b; n++) {
@@ -87,7 +51,7 @@ public class Solver {
             remainders.clear();
             while(r!= 0 && !remainders.containsKey(r)) {
                 remainders.put(r, place);;
-                 r = r * 10 % i;
+                r = r * 10 % i;
                 place++;
             }
             if(r == 0) {
@@ -158,6 +122,6 @@ public class Solver {
     }
 
     public static void main(String[] args){
-        Solver.p27();
+        JavaSolver.p27();
     }
 }
