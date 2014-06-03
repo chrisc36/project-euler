@@ -2,6 +2,20 @@ import scala.math
 
 object ScalaSolver extends App {
 
+  def p31() {
+    // Dynamic programming algorithm, we record the number of ways we could make
+    // each value and update it one coin at a time
+    val targetPence = 200
+    val coinValues = Array[Int](1, 2, 5, 10, 20, 50, 100, 200)
+    val coinsPerValue = Array.ofDim[Int](targetPence + 1)
+    coinsPerValue(0) = 1
+    coinValues.foreach(
+      coinValue => (coinValue to targetPence).foreach(p => coinsPerValue(p) += coinsPerValue(p - coinValue))
+    )
+    println(coinsPerValue(targetPence))
+  }
+
+
   def p30() {
     // Easy to just brute force this
     val pow = 5
@@ -80,6 +94,6 @@ object ScalaSolver extends App {
   }
 
   override def main (args: Array[String]) {
-    p30()
+    p31()
   }
 }
